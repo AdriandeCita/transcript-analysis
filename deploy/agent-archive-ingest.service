@@ -1,0 +1,12 @@
+# systemd --user unit. Install: see SPEC.md "Scheduling"
+[Unit]
+Description=agent-archive: ingest coding-agent transcripts
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/src/agent-archive
+ExecStart=/usr/bin/python3 ingest/ingest.py run
+Nice=10
+IOSchedulingClass=idle
+NoNewPrivileges=yes
+PrivateTmp=yes

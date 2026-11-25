@@ -1,0 +1,29 @@
+# Copy to config.toml (gitignored) and adjust. Paths may use ~.
+# Every root is the HOST side of a container bind mount. Point it at the mount
+# point itself or below it -- never above, since containers control everything inside.
+
+db = "data/archive.db"          # relative to repo root
+max_line_bytes = 8_000_000      # longer lines are skipped (kept out of raw, counted)
+max_file_bytes = 2_000_000_000  # per-file read budget per run (also caps .gz decompression)
+max_text_chars = 20_000         # normalized text truncation (raw keeps everything)
+snapshot_keep = 5
+
+# Extra regexes to redact in normalized text (raw is never redacted, never leaves host)
+redact_patterns = [
+  # "corp-internal-[a-z0-9]{32}",
+]
+
+# Claude Code: mount the container's ~/.claude to ~/agent-data/<project>/claude
+[[source]]
+name = "maxi-api"                       # unique, stable: part of every session id
+harness = "claude_code"
+root = "~/agent-data/maxi-api/claude/projects"
+project = "maxi-api"
+
+# OMP: mount the container's ~/.omp/agent to ~/agent-data/<project>/omp-agent
+# root is the agent dir (contains sessions/ and archive/)
+[[source]]
+name = "airflow-dags"
+harness = "omp"
+root = "~/agent-data/airflow-dags/omp-agent"
+project = "airflow-dags"

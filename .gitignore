@@ -1,0 +1,24 @@
+# ingested data and snapshots (host-only; contains transcripts)
+/data/
+# analysis outputs: reports, draft skills, rendered previews
+/out/
+# host-specific source list
+/config.toml
+
+# never commit databases, wherever they end up
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# credentials / local settings
+.env
+.env.*
+.netrc
+.claude/settings.local.json
+
+# local scratch and tooling
+/__backup/
+.venv/
+__pycache__/
+*.pyc
